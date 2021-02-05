@@ -1,23 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useMemo  } from "react";
+import { SvgContext } from "./contexts/SvgContext";
+import { SvgState } from "./types/SvgState";
+import { SvgGrid } from './components/SvgGrid'
 import './App.css';
 
 function App() {
+  const initialState: SvgState = {
+    svgCalculations: [{"a": 1}]
+  }
+
+  const [ state, setState ] = useState(initialState)
+
+  const contextValue = useMemo(() => ({ state }), [state]);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
           Learn React
-        </a>
+          { contextValue &&
+             <SvgContext.Provider value={contextValue}>
+              <SvgGrid />
+            </SvgContext.Provider>
+          }
       </header>
     </div>
   );
