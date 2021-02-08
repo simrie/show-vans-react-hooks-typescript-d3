@@ -1,8 +1,10 @@
 import React, { useState, useMemo  } from "react";
 import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
-import { SvgGrid } from './components/SvgGrid'
+import { SvgGrid } from './components/SvgGrid';
+import { Generator } from './components/Generator';
 import './App.css';
+import './styles/svg.css';
 
 function App() {
   const initialState: SvgState = {
@@ -11,7 +13,7 @@ function App() {
 
   const [ state, setState ] = useState(initialState)
 
-  const contextValue = useMemo(() => ({ state }), [state]);
+  const svgContextValue = useMemo(() => ({ state }), [state]);
 
   return (
     <div className="App">
@@ -20,9 +22,10 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-          Learn React
-          { contextValue &&
-             <SvgContext.Provider value={contextValue}>
+          Transit Vans Route Optimization
+          { svgContextValue &&
+             <SvgContext.Provider value={svgContextValue}>
+              <Generator />
               <SvgGrid />
             </SvgContext.Provider>
           }
