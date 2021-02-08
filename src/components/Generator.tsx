@@ -30,8 +30,13 @@ export const Generator = ()  => {
         })
     };
 
-    const startOptimization = () => {
-        const groupedRuns:VanRun[] = Generate();
+    const sleep = (milliseconds:number) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+      }
+
+
+    const startOptimization = async() => {
+        let groupedRuns:VanRun[] = Generate();
         console.log('GroupedRuns Generated IS:  ', groupedRuns);
         let counter = 0;
         do {
@@ -39,8 +44,9 @@ export const Generator = ()  => {
             console.log('optimizedSet: ', optimizedSet)
             //this.setState({ optimizedSet });
             updateSvgState(optimizedSet);
+            await sleep(2500);     
             counter++;
-        } while (counter < 6);
+        } while (counter < 15);
     }
 
 

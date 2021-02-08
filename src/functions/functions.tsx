@@ -3,6 +3,7 @@ import { VanRun,  VanRideItem } from "../types/transit-vans/index";
 const transitVans = require('transit-vans');
 const{ get, map, forEach } = require("lodash");
 
+
 export const ConvertRidesToPaths = (vanRuns:VanRun[]):string[] => {
     console.log("ConvertRidesToPaths function");
     let paths:string[] = map(vanRuns, convertRidesToPath);
@@ -38,9 +39,9 @@ const convertRidesToPath = (vanRun:VanRun):string => {
         }
         let pathAppend = `${mover}${x} ${y} `;
         console.log(pathAppend);
-        svgPath = `${svgPath} ${pathAppend}`;
+        svgPath = `${svgPath}${pathAppend}`;
     })
-    svgPath = `${svgPath} Z`;
+    svgPath = `${svgPath}Z`;
     //svgPath="M150 0 L75 200 L225 200 Z";
 
     return svgPath;
