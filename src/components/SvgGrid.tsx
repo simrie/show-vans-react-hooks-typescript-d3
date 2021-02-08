@@ -1,21 +1,29 @@
 import React, { useContext } from "react";
 import { SvgContext } from "../contexts/SvgContext";
 import { SvgState } from "../types/SvgState";
-import { GetSvgFromCalculations } from "../functions/functions"
+import { VanRun } from "../types/transit-vans";
+import { ConvertRidesToPath } from "../functions/functions"
 
 
 export const SvgGrid = ()  => {
     console.log("SvgGrid")
     const ctx = useContext(SvgContext);
-    if (ctx === null || ctx.state === null || ctx.state.svgCalculations == null) {
+    if (ctx === null || ctx.state === null || ctx.state.optimizedSet == null) {
         console.log("state null")
         return (<>haha</>);
     }
     let state:SvgState;
     state = ctx.state;
     console.log(state)
-    let calculations:object[]=state.svgCalculations;
-    let svg:string = GetSvgFromCalculations(calculations)
+    let optimizedSet:VanRun[]=state.optimizedSet;
+    if (optimizedSet.length > 0) {
+        let path=""
+        optimizedSet.forEach(vanRun => {
+           path = ConvertRidesToPath(vanRun)
+           console.log(path)
+        })
+    }
+    //let svg:string = GetSvgFromCalculations(calculations)
     /*
     if (svg === null) {
         return (<></>);

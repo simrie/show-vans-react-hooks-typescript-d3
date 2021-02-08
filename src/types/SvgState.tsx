@@ -1,3 +1,6 @@
+import { VanRun } from "./../types/transit-vans/index"
+
 export interface SvgState {
-    svgCalculations: object[];
+    //svgCalculations: object[];
+    optimizedSet:  VanRun[] | [];
 }

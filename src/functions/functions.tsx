@@ -1,10 +1,10 @@
 import { VanRun } from "../types/transit-vans/index";
 const transitVans = require('transit-vans');
 
-export const GetSvgFromCalculations = (calculations:object[]):string => {
-    let svg:string = "";
-
-    return svg;
+export const ConvertRidesToPath = (vanRun:VanRun):string => {
+    let svgPath:string = "";
+    svgPath="M150 0 L75 200 L225 200 Z";
+    return svgPath;
 }
 
 export const Generate = ():VanRun[] => {
