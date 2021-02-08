@@ -50,7 +50,6 @@ export const Generator = ()  => {
     }
 
 
-
     return (
         <button type="submit" onClick={() => startOptimization()}  >
             Generate

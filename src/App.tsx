@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer  } from "react";
+import React, { useMemo, useReducer, createRef  } from "react";
 import { DispatchContext } from "./contexts/DispatchContext";
 import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
@@ -10,24 +10,24 @@ import './App.css';
 import './styles/svg.css';
 
 function App() {
+
   const initialState: SvgState = {
    optimizedSet: []
   }
 
   const [ state, dispatch ] = useReducer(SvgStateReducer, initialState);
 
-
   const dispatchValue = useMemo(() => ({ dispatch }), [dispatch]);
   const svgContextValue = useMemo(() => ({ state }), [state]);
+  const svgParent = createRef<HTMLElement>();
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" ref={svgParent}>
       
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <p>        
           Transit Vans Route Optimization
+        </p>
           <DispatchContext.Provider value={dispatchValue}>
           { svgContextValue &&
              <SvgContext.Provider value={svgContextValue}>

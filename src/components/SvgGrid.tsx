@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, createRef } from "react";
+//import { DispatchContext } from "../contexts/DispatchContext";
 import { SvgContext } from "../contexts/SvgContext";
 import { SvgState } from "../types/SvgState";
 import { VanRun } from "../types/transit-vans";
@@ -6,7 +7,8 @@ import { ConvertRidesToPaths } from "../functions/functions";
 
 
 export const SvgGrid = ()  => {
-    console.log("SvgGrid")
+    console.log("Generator");
+    //const { dispatch } = useContext(DispatchContext);
     const ctx = useContext(SvgContext);
     if (ctx === null || ctx.state === null || ctx.state.optimizedSet == null) {
         console.log("state null")
@@ -18,7 +20,8 @@ export const SvgGrid = ()  => {
     let optimizedSet:VanRun[]=state.optimizedSet;
     let paths = ConvertRidesToPaths(optimizedSet);
     console.log(paths);
-  
+    const svgParent = createRef<HTMLDivElement>();
+
     /*
     if (svg === null) {
         return (<></>);
@@ -54,10 +57,12 @@ export const SvgGrid = ()  => {
     */
 
 
+
     return (
+        <div ref={svgParent}>
         <svg 
             id="svgGrid"
-            width={'400'} height={'600'} 
+            width={'300'} height={'400'} 
             >
             <g strokeWidth="3px" stroke="yellow" color="yellow">
                 <path d={paths[0]} />
@@ -66,6 +71,7 @@ export const SvgGrid = ()  => {
                 <path d={paths[1]} />
             </g>
         </svg>
+        </div>
     );
     
     

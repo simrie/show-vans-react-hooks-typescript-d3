@@ -1,4 +1,5 @@
 svg {
     border: 1px solid black;
+    fill: none;
     z-index: 1;
   }
