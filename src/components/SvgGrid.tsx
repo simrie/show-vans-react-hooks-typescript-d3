@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { SvgContext } from "../contexts/SvgContext";
 import { SvgState } from "../types/SvgState";
 import { VanRun } from "../types/transit-vans";
-import { ConvertRidesToPath } from "../functions/functions"
+import { ConvertRidesToPaths } from "../functions/functions"
 
 
 export const SvgGrid = ()  => {
@@ -16,13 +16,8 @@ export const SvgGrid = ()  => {
     state = ctx.state;
     console.log(state)
     let optimizedSet:VanRun[]=state.optimizedSet;
-    if (optimizedSet.length > 0) {
-        let path=""
-        optimizedSet.forEach(vanRun => {
-           path = ConvertRidesToPath(vanRun)
-           console.log(path)
-        })
-    }
+    let paths = ConvertRidesToPaths(optimizedSet);
+    console.log(paths);
     //let svg:string = GetSvgFromCalculations(calculations)
     /*
     if (svg === null) {

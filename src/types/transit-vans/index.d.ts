@@ -1,10 +1,11 @@
 declare module 'transit-vans';
 
+
 export interface VanStop {
     id: number;
     name: string;
     x: number;
-    y: Number;
+    y: number;
 }
 
 export interface VanRideItem {
@@ -17,7 +18,7 @@ export interface VanRideItem {
 export interface VanRun {
     vanRunId: number;
     endDestination: VanStop;
-    rideOrder: VanStop[];
+    rideOrder: VanRideItem[];
 }
 
 
