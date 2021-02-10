@@ -11,9 +11,10 @@ export function StateReducer(state: SvgState, action: Action): SvgState {
 
     switch (action.type) {
     case 'reset': {
+        let emptyRuns:VanRun[] = [];
         return {
              ...state,
-            optimizedSet: []
+            optimizedSet: emptyRuns,
         }
     }
     case 'update': {

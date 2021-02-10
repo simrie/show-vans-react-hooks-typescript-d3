@@ -21,12 +21,14 @@ export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | unde
       .selectAll("g")
       .data(paths);
 
+    console.log('Paths count ', paths.length)  
+
     const svg_g_paths = svg_g.selectAll("path");
 
     // Use transitions is the paths already exist, otherwise cretae the paths
     if (svg_g_paths.size() > 0) {
         svg_g
-        .join("g")
+        .join('g')
         .select("path")
         .transition()
         .attr('d', value => value);
@@ -52,10 +54,8 @@ export const D3RemovePaths = (svgRef:React.MutableRefObject<any> | undefined) =>
     const svg = select(svgRef.current);
     const svg_g = svg
       .selectAll("g")
-      .data([]);
-
-    svg_g
-        //.select("path")
-        .exit()
-        .remove();
+      .data([])
+      .join('g');
+    
+    console.log(svg_g)
 }
