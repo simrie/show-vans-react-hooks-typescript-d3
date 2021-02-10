@@ -7,7 +7,7 @@ export type Action =
  | { type: "update"; vanRuns: VanRun[] }
 ;
 
-export function SvgStateReducer(state: SvgState, action: Action): SvgState {
+export function StateReducer(state: SvgState, action: Action): SvgState {
 
     switch (action.type) {
     case 'reset': {
@@ -17,7 +17,6 @@ export function SvgStateReducer(state: SvgState, action: Action): SvgState {
         }
     }
     case 'update': {
-        console.log('update was called in the reducer')
         const { vanRuns } = action;
         return {
             ...state,

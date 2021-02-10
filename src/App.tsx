@@ -2,7 +2,7 @@ import React, { useMemo, useReducer } from "react";
 import { DispatchContext } from "./contexts/DispatchContext";
 import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
-import { SvgStateReducer } from "./functions/svgStateReducer";
+import { StateReducer } from "./functions/StateReducer";
 import { SvgGrid } from './components/SvgGrid';
 import { Generator } from './components/Generator';
 
@@ -15,7 +15,7 @@ function App() {
    optimizedSet: []
   }
 
-  const [ state, dispatch ] = useReducer(SvgStateReducer, initialState);
+  const [ state, dispatch ] = useReducer(StateReducer, initialState);
 
   const dispatchValue = useMemo(() => ({ dispatch }), [dispatch]);
   const svgContextValue = useMemo(() => ({ state }), [state]);

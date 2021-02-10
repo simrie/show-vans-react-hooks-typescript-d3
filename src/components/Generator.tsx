@@ -2,7 +2,7 @@
 import React, { useContext} from "react";
 import { DispatchContext } from "../contexts/DispatchContext";
 import { VanRun } from "../types/transit-vans";
-import { Generate, Optimize } from "../functions/functions";
+import { Generate, Optimize } from "../functions/VanRunFnctions";
 
 
 export const Generator = ()  => {
@@ -11,7 +11,13 @@ export const Generator = ()  => {
         return (<>dispathc is null</>);
     }
 
-    const updateSvgState = (optimizedSet:VanRun[]) => {
+    const resetState = () => {
+        dispatch({
+            type: 'reset',
+        })
+    };
+
+    const updateState = (optimizedSet:VanRun[]) => {
         dispatch({
             type: 'update',
             vanRuns: optimizedSet,
@@ -23,13 +29,15 @@ export const Generator = ()  => {
     }
 
     const startOptimization = async() => {
+        resetState();
+        await sleep(1000);
         let groupedRuns:VanRun[] = Generate();
         let counter = 0;
         do {
             let optimizedSet:VanRun[] = Optimize(groupedRuns);
-            updateSvgState(optimizedSet);
+            updateState(optimizedSet);
             // Sleep is here to give the svg a chance to visibly update after state is updated
-            await sleep(2000);     
+            await sleep(1000);     
             counter++;
         } while (counter < 15);
     }

@@ -40,3 +40,22 @@ export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | unde
         .attr('d', value => value);
     }
 }
+
+export const D3RemovePaths = (svgRef:React.MutableRefObject<any> | undefined) => {
+    console.log("D3RemovePaths");
+    if (svgRef === null || svgRef === undefined) {
+        return;
+    }
+    if (svgRef.current === null || svgRef.current === undefined) {
+        return;
+    }
+    const svg = select(svgRef.current);
+    const svg_g = svg
+      .selectAll("g")
+      .data([]);
+
+    svg_g
+        //.select("path")
+        .exit()
+        .remove();
+}
