@@ -1,15 +1,8 @@
 import React from 'react'
-import { select } from "d3";
+import { select, scaleOrdinal, schemeCategory10 } from "d3";
 
-export const CheckRef = (svgRef:React.MutableRefObject<any>) => {
-    const svg = select(svgRef.current);
-    console.log("checkRef svg.select ", svg);
-    const g = svg.selectAll("g");
-    console.log("checkRef g.selectAll ", g);
-}
 
 export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | undefined, paths:string[]) => {
-    console.log("D3GeneralUpdatePattern svgRef, paths: ", svgRef, paths);
     if (svgRef === null || svgRef === undefined) {
         return;
     }
@@ -20,25 +13,30 @@ export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | unde
         return;
     }
 
+    // TODO:  Accommodate colors for more than 10 paths
+    const pathColor = scaleOrdinal(schemeCategory10);
+
     const svg = select(svgRef.current);
-    console.log("D3GeneralUpdatePattern svg.select ", svg);
-    //const g = svg.selectAll("g");
-   // console.log("D3Selector g.selectAll ", g);
-    /*
-            <g strokeWidth="3px" stroke="yellow" color="yellow">
-                <path d={paths[0]} />
-            </g>
-            <g strokeWidth="3px" stroke="green" color="yellow">
-                <path d={paths[1]} />
-            </g>
-    */
-    svg
+    const svg_g = svg
       .selectAll("g")
-      .data(paths)
-      .join("g")
-      .attr("stroke", "red")
-      .attr("strokeWidgth", "3px")
-      .append("path")
-      .attr('d', value => value);
-      
+      .data(paths);
+
+    const svg_g_paths = svg_g.selectAll("path");
+
+    // Use transitions is the paths already exist, otherwise cretae the paths
+    if (svg_g_paths.size() > 0) {
+        svg_g
+        .join("g")
+        .select("path")
+        .transition()
+        .attr('d', value => value);
+
+    } else {
+        svg_g
+        .join("g")
+        .attr("stroke", value => pathColor(value))
+        .attr("strokeWidgth", "3px")
+        .append("path")
+        .attr('d', value => value);
+    }
 }

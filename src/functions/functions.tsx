@@ -5,9 +5,7 @@ const{ get, map, forEach } = require("lodash");
 
 
 export const ConvertRidesToPaths = (vanRuns:VanRun[]):string[] => {
-    console.log("ConvertRidesToPaths function");
     let paths:string[] = map(vanRuns, convertRidesToPath);
-
     return paths;
 }
 
@@ -59,7 +57,6 @@ export const Generate = ():VanRun[] => {
         recombinations
      };
      const groupedRuns = transitVans.generate(Args);
-     console.log('groupedRuns is ', groupedRuns);
      return groupedRuns;
 }
 
