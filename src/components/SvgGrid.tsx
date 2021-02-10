@@ -1,26 +1,55 @@
-import React, { useContext, createRef } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 //import { DispatchContext } from "../contexts/DispatchContext";
 import { SvgContext } from "../contexts/SvgContext";
 import { SvgState } from "../types/SvgState";
 import { VanRun } from "../types/transit-vans";
 import { ConvertRidesToPaths } from "../functions/functions";
+import { CheckRef,D3GeneralUpdatePattern } from "../functions/d3Functions";
+import { select, BaseType } from "d3";
 
 
 export const SvgGrid = ()  => {
     console.log("Generator");
     //const { dispatch } = useContext(DispatchContext);
+    const svgRef = useRef<BaseType | unknown | HTMLElement | any>();
     const ctx = useContext(SvgContext);
+    
+
+    useEffect(() => {
+        const svg = select(svgRef.current);
+        console.log("svgGrid svg.select ", svg);
+        const g = svg.selectAll("g");
+        console.log("svgGrid g.select ", g);
+        CheckRef(svgRef);
+        /*
+        const circleData = [25, 30, 45, 60, 20];
+        svg
+          .selectAll("circle")
+          .data(circleData)
+          .join("circle")
+          .attr("r", value => value)
+          .attr("cx", value => value * 2)
+          .attr("cy", value => value * 2)
+          .attr("stroke", "red");
+          */
+         if (ctx === null || ctx.state === null || ctx.state.optimizedSet == null) {
+             return
+         }
+         let state:SvgState;
+         state = ctx.state;
+         console.log(state)
+         let optimizedSet:VanRun[]=state.optimizedSet;
+         let paths = ConvertRidesToPaths(optimizedSet);
+         console.log(paths);
+         D3GeneralUpdatePattern(svgRef, paths);
+
+      }, [ctx]);
     if (ctx === null || ctx.state === null || ctx.state.optimizedSet == null) {
         console.log("state null")
         return (<>haha</>);
     }
-    let state:SvgState;
-    state = ctx.state;
-    console.log(state)
-    let optimizedSet:VanRun[]=state.optimizedSet;
-    let paths = ConvertRidesToPaths(optimizedSet);
-    console.log(paths);
-    const svgParent = createRef<HTMLDivElement>();
+
+
 
     /*
     if (svg === null) {
@@ -59,19 +88,12 @@ export const SvgGrid = ()  => {
 
 
     return (
-        <div ref={svgParent}>
         <svg 
+            ref={svgRef}
             id="svgGrid"
             width={'300'} height={'400'} 
             >
-            <g strokeWidth="3px" stroke="yellow" color="yellow">
-                <path d={paths[0]} />
-            </g>
-            <g strokeWidth="3px" stroke="green" color="yellow">
-                <path d={paths[1]} />
-            </g>
         </svg>
-        </div>
     );
     
     

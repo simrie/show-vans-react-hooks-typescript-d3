@@ -1,20 +1,44 @@
-import React, { useRef } from 'react'
-const { d3 } = require('d3');
+import React from 'react'
+import { select } from "d3";
 
-export const CheckRef = () => {
-    const svgParent = useRef();
-    console.log("checkRef svgParent ", svgParent);
+export const CheckRef = (svgRef:React.MutableRefObject<any>) => {
+    const svg = select(svgRef.current);
+    console.log("checkRef svg.select ", svg);
+    const g = svg.selectAll("g");
+    console.log("checkRef g.selectAll ", g);
 }
 
-export const D3Selector = (parent:React.RefObject<HTMLElement> | undefined) => {
-    console.log("D3Selector parent ", parent);
-    if (parent === null || parent === undefined) {
+export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | undefined, paths:string[]) => {
+    console.log("D3GeneralUpdatePattern svgRef, paths: ", svgRef, paths);
+    if (svgRef === null || svgRef === undefined) {
         return;
     }
-    if (parent.current === null || parent.current === undefined) {
+    if (svgRef.current === null || svgRef.current === undefined) {
+        return;
+    }
+    if (paths === null || paths === undefined) {
         return;
     }
 
-    const d3sel = d3.Select(parent.current).Select("svg");
-    console.log("D3Selector svg ", d3sel);
+    const svg = select(svgRef.current);
+    console.log("D3GeneralUpdatePattern svg.select ", svg);
+    //const g = svg.selectAll("g");
+   // console.log("D3Selector g.selectAll ", g);
+    /*
+            <g strokeWidth="3px" stroke="yellow" color="yellow">
+                <path d={paths[0]} />
+            </g>
+            <g strokeWidth="3px" stroke="green" color="yellow">
+                <path d={paths[1]} />
+            </g>
+    */
+    svg
+      .selectAll("g")
+      .data(paths)
+      .join("g")
+      .attr("stroke", "red")
+      .attr("strokeWidgth", "3px")
+      .append("path")
+      .attr('d', value => value);
+      
 }

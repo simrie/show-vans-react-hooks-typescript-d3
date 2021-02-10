@@ -1,5 +1,4 @@
 import { VanRun,  VanRideItem } from "../types/transit-vans/index";
-import { CheckRef } from "../functions/d3Functions";
 
 const transitVans = require('transit-vans');
 const{ get, map, forEach } = require("lodash");
@@ -9,8 +8,6 @@ export const ConvertRidesToPaths = (vanRuns:VanRun[]):string[] => {
     console.log("ConvertRidesToPaths function");
     let paths:string[] = map(vanRuns, convertRidesToPath);
 
-    CheckRef();    
-    
     return paths;
 }
 

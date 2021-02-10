@@ -8,7 +8,7 @@ import { Generate, Optimize } from "../functions/functions";
 
 
 export const Generator = ()  => {
-    console.log("Generator")
+    console.log("Generator");
     const { dispatch } = useContext(DispatchContext);
     const ctx = useContext(SvgContext);
     if (ctx === null || ctx.state === null) {

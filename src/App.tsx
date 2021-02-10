@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer, createRef  } from "react";
+import React, { useMemo, useReducer } from "react";
 import { DispatchContext } from "./contexts/DispatchContext";
 import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
@@ -19,11 +19,11 @@ function App() {
 
   const dispatchValue = useMemo(() => ({ dispatch }), [dispatch]);
   const svgContextValue = useMemo(() => ({ state }), [state]);
-  const svgParent = createRef<HTMLElement>();
+
 
   return (
     <div className="App">
-      <header className="App-header" ref={svgParent}>
+      <header className="App-header" >
       
         <p>        
           Transit Vans Route Optimization
