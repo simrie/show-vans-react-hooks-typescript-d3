@@ -25,7 +25,7 @@ export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | unde
 
     const svg_g_paths = svg_g.selectAll("path");
 
-    // Use transitions is the paths already exist, otherwise cretae the paths
+    // Use transitions if the paths already exist, otherwise cretae the paths
     if (svg_g_paths.size() > 0) {
         svg_g
         .join('g')
@@ -36,8 +36,9 @@ export const D3GeneralUpdatePattern = (svgRef:React.MutableRefObject<any> | unde
     } else {
         svg_g
         .join("g")
+        .attr("class", "path")
         .attr("stroke", value => pathColor(value))
-        .attr("strokeWidgth", "3px")
+        //.attr("strokeWidgth", "3px")
         .append("path")
         .attr('d', value => value);
     }

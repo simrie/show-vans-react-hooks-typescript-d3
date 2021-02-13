@@ -43,10 +43,10 @@ const convertRidesToPath = (vanRun:VanRun):string => {
     return svgPath;
 }
 
-export const Generate = ():VanRun[] => {
+export const GetVanRuns = ():VanRun[] => {
     const gridSize = 40;
-    const knownLocationCount = 20;
-    const ridesToCreate = 30;
+    const knownLocationCount = 2;
+    const ridesToCreate = 10;
     const generations = 5;
     const recombinations = 1;
     const Args = {
@@ -57,6 +57,7 @@ export const Generate = ():VanRun[] => {
         recombinations
      };
      const groupedRuns = transitVans.generate(Args);
+     console.log("groupedRuns ", groupedRuns)
      return groupedRuns;
 }
 

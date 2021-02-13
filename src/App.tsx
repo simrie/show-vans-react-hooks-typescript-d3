@@ -4,7 +4,7 @@ import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
 import { StateReducer } from "./functions/StateReducer";
 import { SvgGrid } from './components/SvgGrid';
-import { Generator } from './components/Generator';
+import { OptimizeBtn } from './components/OptimizeBtn';
 
 import './App.css';
 import './styles/svg.css';
@@ -31,7 +31,7 @@ function App() {
           <DispatchContext.Provider value={dispatchValue}>
           { svgContextValue &&
              <SvgContext.Provider value={svgContextValue}>
-              <Generator />
+              <OptimizeBtn />
               <SvgGrid />
             </SvgContext.Provider>
           }

@@ -33,7 +33,7 @@ export const SvgGrid = ()  => {
         <svg 
             ref={svgRef}
             id="svgGrid"
-            width={'300'} height={'400'} 
+            width={'200'} height={'200'} 
             >
         </svg>
     );

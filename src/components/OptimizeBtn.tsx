@@ -2,10 +2,10 @@
 import React, { useContext} from "react";
 import { DispatchContext } from "../contexts/DispatchContext";
 import { VanRun } from "../types/transit-vans";
-import { Generate, Optimize } from "../functions/VanRunFnctions";
+import { GetVanRuns, Optimize } from "../functions/VanRunFnctions";
 
 
-export const Generator = ()  => {
+export const OptimizeBtn = ()  => {
     const { dispatch } = useContext(DispatchContext);
     if ( dispatch === null ) {
         return (<>dispathc is null</>);
@@ -31,7 +31,7 @@ export const Generator = ()  => {
     const startOptimization = async() => {
         resetState();
         await sleep(1000);
-        let groupedRuns:VanRun[] = Generate();
+        let groupedRuns:VanRun[] = GetVanRuns();
         console.log("GROUPED RUNS[0] ", groupedRuns[0]);
         let counter = 0;
         do {
@@ -44,12 +44,11 @@ export const Generator = ()  => {
             await sleep(1000);     
             counter++;
         } while (counter < 2);
-        resetState();
     }
 
     return (
         <button type="submit" onClick={() => startOptimization()}  >
-            Generate
+            Optimize Routes
         </button>
     );
     
