@@ -26,7 +26,7 @@ function App() {
       <header className="App-header" >
       
         <p>        
-          Transit Vans Route Optimization
+          Transit Vans Route Optimization Viewer
         </p>
           <DispatchContext.Provider value={dispatchValue}>
           { svgContextValue &&
