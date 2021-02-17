@@ -8,6 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 > npx create-react-app my-app --template typescript --use-npm
 
+The "my-app" name was later changed to "show-vans-react-hooks-typescript-d3" in the package.json.
 
 ## Available Scripts
 
