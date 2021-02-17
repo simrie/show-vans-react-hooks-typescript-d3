@@ -1,31 +1,41 @@
-import React, { useState, useMemo  } from "react";
+import React, { useMemo, useReducer } from "react";
+import { DispatchContext } from "./contexts/DispatchContext";
 import { SvgContext } from "./contexts/SvgContext";
 import { SvgState } from "./types/SvgState";
-import { SvgGrid } from './components/SvgGrid'
+import { StateReducer } from "./functions/StateReducer";
+import { SvgGrid } from './components/SvgGrid';
+import { OptimizeBtn } from './components/OptimizeBtn';
+
 import './App.css';
+import './styles/svg.css';
 
 function App() {
+
   const initialState: SvgState = {
-    svgCalculations: [{"a": 1}]
+   optimizedSet: []
   }
 
-  const [ state, setState ] = useState(initialState)
+  const [ state, dispatch ] = useReducer(StateReducer, initialState);
 
-  const contextValue = useMemo(() => ({ state }), [state]);
+  const dispatchValue = useMemo(() => ({ dispatch }), [dispatch]);
+  const svgContextValue = useMemo(() => ({ state }), [state]);
+
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" >
       
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+        <p>        
+          Transit Vans Route Optimization Viewer
         </p>
-          Learn React
-          { contextValue &&
-             <SvgContext.Provider value={contextValue}>
+          <DispatchContext.Provider value={dispatchValue}>
+          { svgContextValue &&
+             <SvgContext.Provider value={svgContextValue}>
+              <OptimizeBtn />
               <SvgGrid />
             </SvgContext.Provider>
           }
+          </DispatchContext.Provider>
       </header>
     </div>
   );
