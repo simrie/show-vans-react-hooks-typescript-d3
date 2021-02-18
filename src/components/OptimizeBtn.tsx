@@ -28,22 +28,25 @@ export const OptimizeBtn = ()  => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
+    const max_optimization_passes = 20;
+
     const startOptimization = async() => {
         resetState();
-        await sleep(1000);
+        // Sleeping between optimizations so humans can see the changes
+        await sleep(500);
         let groupedRuns:VanRun[] = GetVanRuns();
-        console.log("GROUPED RUNS[0] ", groupedRuns[0]);
+        console.log("startOptimization groupedRuns: ", groupedRuns);
         let counter = 0;
         do {
             let optimizedSet:VanRun[] = Optimize(groupedRuns);
-            console.log("OPTIMIZED SET[0] ", optimizedSet[0]);
+            console.log("OPTIMIZED SET[0]: ", optimizedSet[0]);
 
             updateState(optimizedSet);
 
             // Sleep is here to give the svg a chance to visibly update after state is updated
             await sleep(1000);     
             counter++;
-        } while (counter < 2);
+        } while (counter < max_optimization_passes);
     }
 
     return (

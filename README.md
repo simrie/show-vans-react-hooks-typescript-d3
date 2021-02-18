@@ -1,6 +1,6 @@
 # Transit Van Route Optimization Viewer
 
-This Typescript app uses D3 to visualize continual optimizations of a randomly generated set of riders, destinations and van routes. 
+This Typescript app uses D3 to visualize continual optimizations of a randomly generated set of riders, destinations and van routes from a module created in a separate NodeJS project. 
 
 # Getting Started with Create React App
 
