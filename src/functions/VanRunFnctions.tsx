@@ -2,15 +2,10 @@ import { VanRun,  VanRideItem, Point } from "../types/transit-vans/index";
 import { D3PathMaker } from "../functions/D3Functions";
 
 const transitVans = require('transit-vans');
-const{ get, map, forEach, concat } = require("lodash");
+const{ get, map, concat } = require("lodash");
 
-export const ConvertRidesToPoints = (vanRuns:VanRun[]):string[] => {
-    let paths:string[]  = map(vanRuns, convertRidesToPoints);
-    return paths;
-}
-
-export const ConvertRidesToPaths = (vanRuns:VanRun[]):string[] => {
-    let paths:string[] = map(vanRuns, convertRidesToPath);
+export const ConvertRidesToPoints = (vanRuns:VanRun[], height: number, width: number, margin: number):string[] => {
+    const paths:string[]  = map(vanRuns, (vanRun:VanRun) => convertRidesToPoints(vanRun, height, width, margin));
     return paths;
 }
 
@@ -29,38 +24,13 @@ const extractPoint = (vanRideItem:VanRideItem):Point => {
     return point;
 }
 
-const convertRidesToPoints = (vanRun:VanRun):( string | null ) => {
+const convertRidesToPoints = (vanRun:VanRun, height: number, width: number, margin: number):( string | null ) => {
     let points:Point[] = [];
     let rideOrder = get(vanRun, "rideOrder", []);
     let pointMap = map(rideOrder, extractPoint);
     points = concat(points, pointMap)
     console.log("Van run : points ", vanRun.vanRunId, points);
-    return D3PathMaker(points);
-}
-
-const convertRidesToPath = (vanRun:VanRun):string => {
-    // We should be using D3 line function instead of building the path.
-    let svgPath:string = "";
-    let rideOrder = get(vanRun, "rideOrder", []);
-    let xMap = map(rideOrder, extractX);
-    let yMap = map(rideOrder, extractY);
-    if (xMap.length === 0 || xMap.length !== yMap.length) {
-        return "";
-    }
-    let pixelMultiplier=5;
-
-    forEach(xMap, (val:number, key:number) => {
-        let x = val * pixelMultiplier;
-        let y = yMap[key] * pixelMultiplier;
-        let mover = "L";
-        if (key === 0) {
-           mover = "M";
-        }
-        let pathAppend = `${mover}${x} ${y} `;
-        svgPath = `${svgPath}${pathAppend}`;
-    })
-    svgPath = `${svgPath}Z`;
-    return svgPath;
+    return D3PathMaker(points, height, width, margin);
 }
 
 export const GetVanRuns = ():VanRun[] => {

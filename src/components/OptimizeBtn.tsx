@@ -28,12 +28,12 @@ export const OptimizeBtn = ()  => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
-    const max_optimization_passes = 0;
+    const max_optimization_passes = 20;
 
     const startOptimization = async() => {
         resetState();
         // Sleeping between optimizations so humans can see the changes
-        await sleep(1000);
+        await sleep(500);
         let groupedRuns:VanRun[] = GetVanRuns();
         console.log("startOptimization groupedRuns: ", groupedRuns);
         let counter = 0;

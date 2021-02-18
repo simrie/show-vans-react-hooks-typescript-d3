@@ -2,11 +2,25 @@ import React from 'react'
 import { select, scaleOrdinal, scaleLinear, schemeCategory10, axisBottom, axisRight, line } from "d3";
 import { Point } from "../types/transit-vans/index";
 
-const lineGenerator = line();
+const{ map } = require("lodash");
 
-export const D3PathMaker = (points:Point[]):(string | null) => {
-    // https://www.d3indepth.com/shapes/#line-generator
-    return lineGenerator(points);
+// Set the scales
+const x_scaler = (width:number) => scaleLinear().domain([0, 40]).rangeRound([0, width]);
+const  y_scaler = (height:number) => scaleLinear().domain([40, 0]).rangeRound([height, 0]);
+
+const  point_scaler = (point:Point, height: number, width: number, margin: number):Point => {
+    const x = x_scaler(width);
+    const y = y_scaler(height);
+    let scaledPoint:Point = [ x(point[0]), y(point[1]) ]
+    return scaledPoint;
+}
+
+export const D3PathMaker = (points:Point[], height: number, width: number, margin: number):(string | null) => {
+    // line generator usage example:  https://www.d3indepth.com/shapes/#line-generator
+    const lineGenerator = line();
+    // scale the points
+    const scaledPoints = map(points, (point:Point) => point_scaler(point, height, width, margin));
+    return lineGenerator(scaledPoints);
 }
 
 export const D3UpdatePaths = (svgRef:React.MutableRefObject<any> | undefined, paths:string[]) => {
@@ -76,9 +90,11 @@ export const D3AppendAxes = (svgRef:React.MutableRefObject<any> | undefined, hei
     }
     const svg = select(svgRef.current);
 
-    // Set the ranges
-    const x = scaleLinear().domain([0, 40]).rangeRound([0, width]);
-    const  y = scaleLinear().domain([40, 0]).rangeRound([height, 0]);
+    // Set the scales
+    //const x = scaleLinear().domain([0, 40]).rangeRound([0, width]);
+    const x = x_scaler(width);
+    //const  y = scaleLinear().domain([40, 0]).rangeRound([height, 0]);
+    const y = y_scaler(height);
     
     // Define the axes
     const  xAxis = axisBottom(x).ticks(5);

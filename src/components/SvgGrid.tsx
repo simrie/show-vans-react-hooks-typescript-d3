@@ -10,9 +10,10 @@ import { BaseType } from "d3";
 export const SvgGrid = ()  => {
     const svgRef = useRef<BaseType | unknown | HTMLElement | any>();
     const pathsContext = useContext(SvgContext);
-    const margin = 0;
-    let width = 200;
     let height = 200;
+    let width = 200;
+    const margin = 0;
+
 
     useEffect(() => {
         // Append axes just once
@@ -32,9 +33,9 @@ export const SvgGrid = ()  => {
         }
         let state:SvgState = pathsContext.state;
         let optimizedSet:VanRun[]=state.optimizedSet;
-        let paths = ConvertRidesToPoints(optimizedSet);;
+        let paths = ConvertRidesToPoints(optimizedSet, height, width, margin);
         D3UpdatePaths(svgRef, paths);
-    }, [pathsContext]);
+    }, [pathsContext, height, width, margin]);
 
     if (pathsContext === null || pathsContext.state === null || pathsContext.state.optimizedSet == null) {
         return (<></>);
