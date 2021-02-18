@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/simrie/show-vans-react-hooks-typescript-d3)
+
 # Transit Van Route Optimization Viewer
 
 This Typescript app uses D3 to visualize continual optimizations of a randomly generated set of riders, destinations and van routes from a module created in a separate NodeJS project. 
