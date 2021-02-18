@@ -1,8 +1,13 @@
-import { VanRun,  VanRideItem } from "../types/transit-vans/index";
+import { VanRun,  VanRideItem, Point } from "../types/transit-vans/index";
+import { D3PathMaker } from "../functions/D3Functions";
 
 const transitVans = require('transit-vans');
-const{ get, map, forEach } = require("lodash");
+const{ get, map, forEach, concat } = require("lodash");
 
+export const ConvertRidesToPoints = (vanRuns:VanRun[]):string[] => {
+    let paths:string[]  = map(vanRuns, convertRidesToPoints);
+    return paths;
+}
 
 export const ConvertRidesToPaths = (vanRuns:VanRun[]):string[] => {
     let paths:string[] = map(vanRuns, convertRidesToPath);
@@ -19,7 +24,22 @@ const extractY = (vanRideItem:VanRideItem):number => {
     return value;
 }
 
+const extractPoint = (vanRideItem:VanRideItem):Point => {
+    let point:Point = [ extractX(vanRideItem), extractY(vanRideItem) ];
+    return point;
+}
+
+const convertRidesToPoints = (vanRun:VanRun):( string | null ) => {
+    let points:Point[] = [];
+    let rideOrder = get(vanRun, "rideOrder", []);
+    let pointMap = map(rideOrder, extractPoint);
+    points = concat(points, pointMap)
+    console.log("Van run : points ", vanRun.vanRunId, points);
+    return D3PathMaker(points);
+}
+
 const convertRidesToPath = (vanRun:VanRun):string => {
+    // We should be using D3 line function instead of building the path.
     let svgPath:string = "";
     let rideOrder = get(vanRun, "rideOrder", []);
     let xMap = map(rideOrder, extractX);
@@ -45,10 +65,10 @@ const convertRidesToPath = (vanRun:VanRun):string => {
 
 export const GetVanRuns = ():VanRun[] => {
     const gridSize = 40;
-    const knownLocationCount = 2;
-    const ridesToCreate = 10;
+    const knownLocationCount = 10;
+    const ridesToCreate = 20;
     const generations = 5;
-    const recombinations = 1;
+    const recombinations = 2;
     const Args = {
         gridSize,
         knownLocationCount,

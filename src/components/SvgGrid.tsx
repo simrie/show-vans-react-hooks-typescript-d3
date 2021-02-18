@@ -2,7 +2,7 @@ import React, { useContext, useRef, useEffect } from "react";
 import { SvgContext } from "../contexts/SvgContext";
 import { SvgState } from "../types/SvgState";
 import { VanRun } from "../types/transit-vans";
-import { ConvertRidesToPaths } from "../functions/VanRunFnctions";
+import { ConvertRidesToPoints } from "../functions/VanRunFnctions";
 import { D3UpdatePaths, D3RemovePaths, D3AppendAxes } from "../functions/D3Functions";
 import { BaseType } from "d3";
 
@@ -10,7 +10,7 @@ import { BaseType } from "d3";
 export const SvgGrid = ()  => {
     const svgRef = useRef<BaseType | unknown | HTMLElement | any>();
     const pathsContext = useContext(SvgContext);
-    const margin = 25;
+    const margin = 0;
     let width = 200;
     let height = 200;
 
@@ -20,24 +20,24 @@ export const SvgGrid = ()  => {
     }, [height, width, margin]);
     
     useEffect(() => {
-        // update paths whenever they change
-        if (pathsContext === null || pathsContext.state === null || pathsContext.state.optimizedSet == null) {
-             return
+        // update the paths shown with each optimization
+        if (pathsContext === null || pathsContext.state === null) {
+            D3RemovePaths(svgRef);
+            return;
         }
+        // remove paths when the optimizedSet is empty
         if (pathsContext.state.optimizedSet == null || pathsContext.state.optimizedSet.length === 0) {
             D3RemovePaths(svgRef);
             return;
         }
-        // Append axes
-        // D3AppendAxes(svgRef, height, width);
         let state:SvgState = pathsContext.state;
         let optimizedSet:VanRun[]=state.optimizedSet;
-        let paths = ConvertRidesToPaths(optimizedSet);;
+        let paths = ConvertRidesToPoints(optimizedSet);;
         D3UpdatePaths(svgRef, paths);
     }, [pathsContext]);
 
     if (pathsContext === null || pathsContext.state === null || pathsContext.state.optimizedSet == null) {
-        return (<>haha</>);
+        return (<></>);
     }
 
     return (

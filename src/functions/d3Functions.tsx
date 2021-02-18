@@ -1,15 +1,19 @@
 import React from 'react'
-import { select, scaleOrdinal, scaleLinear, schemeCategory10, axisBottom, axisRight } from "d3";
+import { select, scaleOrdinal, scaleLinear, schemeCategory10, axisBottom, axisRight, line } from "d3";
+import { Point } from "../types/transit-vans/index";
 
+const lineGenerator = line();
+
+export const D3PathMaker = (points:Point[]):(string | null) => {
+    // https://www.d3indepth.com/shapes/#line-generator
+    return lineGenerator(points);
+}
 
 export const D3UpdatePaths = (svgRef:React.MutableRefObject<any> | undefined, paths:string[]) => {
     if (svgRef === null || svgRef === undefined) {
         return;
     }
     if (svgRef.current === null || svgRef.current === undefined) {
-        return;
-    }
-    if (paths === null || paths === undefined) {
         return;
     }
 
@@ -22,9 +26,9 @@ export const D3UpdatePaths = (svgRef:React.MutableRefObject<any> | undefined, pa
         .selectAll("g")
         .data(paths);
 
-    console.log('Paths count ', paths.length)  
+    console.log('paths count ', paths.length)  
 
-    const svg_g_paths = svg_g.selectAll("paths");
+    const svg_g_paths = svg_g.selectAll("path");
 
     // Use transitions if the paths already exist, otherwise cretae the paths
     if (svg_g_paths.size() > 0) {
@@ -39,7 +43,6 @@ export const D3UpdatePaths = (svgRef:React.MutableRefObject<any> | undefined, pa
         .join("g")
         .attr("class", "path")
         .attr("stroke", value => pathColor(value))
-        //.attr("strokeWidgth", "3px")
         .append("path")
         .attr('d', value => value);
     }
@@ -74,8 +77,8 @@ export const D3AppendAxes = (svgRef:React.MutableRefObject<any> | undefined, hei
     const svg = select(svgRef.current);
 
     // Set the ranges
-    const  x = scaleLinear().rangeRound([0, width]);
-    const  y = scaleLinear().rangeRound([height, 0]);
+    const x = scaleLinear().domain([0, 40]).rangeRound([0, width]);
+    const  y = scaleLinear().domain([40, 0]).rangeRound([height, 0]);
     
     // Define the axes
     const  xAxis = axisBottom(x).ticks(5);

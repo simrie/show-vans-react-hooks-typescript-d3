@@ -3,6 +3,7 @@ svg {
     background-color: rgb(50, 82, 100);
     fill: none;
     z-index: 1;
+    overflow: visible;
 }
 
 path {

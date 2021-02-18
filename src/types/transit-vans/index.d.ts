@@ -21,4 +21,6 @@ export interface VanRun {
     rideOrder: VanRideItem[];
 }
 
+export type Point = [ x: number, y: number ];
+
 
